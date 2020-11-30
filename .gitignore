@@ -9,3 +9,5 @@ sas_container/start.sh
 sas_container/Dockerfile
 sas_container/id_rsa.pub
 sas_container/post_deploy.sh
+sasShowLog/__pycache__/*
+.ipynb_checkpoints/*
