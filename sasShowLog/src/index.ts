@@ -76,13 +76,6 @@ function activate(
   sasKernelMenu.title.label = 'SAS Log';
   mainMenu.addMenu(sasKernelMenu);
 
-  // add commands to registry
-  commands.addCommand(CommandIDs.create, {
-    label: 'Open SAS Log Window',
-    caption: 'Open SAS Log Window',
-    execute: createPanel
-  });
-
   commands.addCommand(CommandIDs.pLog, {
     label: 'Show SAS Log for last Submission',
     caption: 'Show SAS Log for last Submission',
@@ -110,13 +103,10 @@ function activate(
   });
 
  // add items in command palette and menu
- [CommandIDs.create, CommandIDs.pLog, CommandIDs.fLog].forEach(command => {
- //[CommandIDs.create, CommandIDs.execute].forEach(command => {
+ [CommandIDs.pLog, CommandIDs.fLog].forEach(command => {
   palette.addItem({ command, category });
   sasKernelMenu.addItem({ command });
 });
-
-
 
 // Add launcher
 if (launcher) {

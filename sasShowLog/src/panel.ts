@@ -38,7 +38,7 @@ export class sasLogPanel extends StackedPanel {
       this._sessionContext = new SessionContext({
         sessionManager: manager.sessions,
         specsManager: manager.kernelspecs,
-        name: 'SAS Log'
+        name: 'SASLogWindow'
       });
   
       this._outputareamodel = new OutputAreaModel();
@@ -48,7 +48,16 @@ export class sasLogPanel extends StackedPanel {
       });
   
       this.addWidget(this._outputarea);
-      // Get the current active Kernel
+      // TODO: Get the current active Kernel
+
+      // TODO: Listen for state change and update contents
+      // private _logMessage(emitter: ButtonWidget, count: ICount): void {
+      //   console.log(
+      //     'Log window updated'
+      //   );
+      //   window.alert(
+      //     'Log window updated'
+      //   );
   
       void this._sessionContext
         .initialize()
@@ -56,18 +65,29 @@ export class sasLogPanel extends StackedPanel {
           if (value) {
             await sessionContextDialogs.selectKernel(this._sessionContext);
           }
+          //if (!(value && this._sessionContext._prevKernelName == 'sas')) {
+          //}
         })
         .catch(reason => {
           console.error(
             `Failed to initialize the session in sasLogPanel.\n${reason}`
           );
         });
+
+      
     }
   
     get session(): ISessionContext {
+     // if (this._sessionContext._prevKernelName == 'sas'){
       return this._sessionContext;
+      //}
     }
     // Make sure the current session is a SAS Kernel
+    //if (!this._sessionContext.sessionManager._sessionConnections._kernel._name == 'sas') {
+      //window.alert("Please select a notebook that uses the SAS kernel.")
+       //manager.sessions._sessionConnections.[0]._kernel._name
+    //};
+   
   
     dispose(): void {
       this._sessionContext.dispose();
