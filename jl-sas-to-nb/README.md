@@ -1,11 +1,14 @@
-# jl-create-sas-file
+# jl-sas-to-nb
 
 ![Github Actions Status](https://github.com/jld23/sas_kernel_ext/workflows/Build/badge.svg)
 
-A small extension to add create SAS file to tool bar
+A Jupyter Lab extension to convert a sas file to a notebook using the SAS_kernel
 
-## TODO
-1. Add SAS icon next to menu item
+
+This extension is composed of a Python package named `jl_sas_to_nb`
+for the server extension and a NPM package named `jl-sas-to-nb`
+for the frontend extension.
+
 
 ## Requirements
 
@@ -13,8 +16,34 @@ A small extension to add create SAS file to tool bar
 
 ## Install
 
+Note: You will need NodeJS to install the extension.
+
 ```bash
-jupyter labextension install jl-create-sas-file
+pip install jl_sas_to_nb
+jupyter lab build
+```
+
+## Troubleshoot
+
+If you are seeing the frontend extension but it is not working, check
+that the server extension is enabled:
+
+```bash
+jupyter serverextension list
+```
+
+If the server extension is installed and enabled but you are not seeing
+the frontend, check the frontend is installed:
+
+```bash
+jupyter labextension list
+```
+
+If it is installed, try:
+
+```bash
+jupyter lab clean
+jupyter lab build
 ```
 
 ## Contributing
@@ -27,7 +56,12 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Move to jl-create-sas-file directory
+# Move to jl-sas-to-nb directory
+
+# Install server extension
+pip install -e .
+# Register server extension
+jupyter serverextension enable --py jl_sas_to_nb --sys-prefix
 
 # Install dependencies
 jlpm
@@ -55,6 +89,6 @@ Now every change will be built locally and bundled into JupyterLab. Be sure to r
 ### Uninstall
 
 ```bash
-
-jupyter labextension uninstall jl-create-sas-file
+pip uninstall jl_sas_to_nb
+jupyter labextension uninstall jl-sas-to-nb
 ```
