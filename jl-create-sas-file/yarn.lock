@@ -69,7 +69,7 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.1.tgz#ccfef6ddbe59f8fe8f694783e1d3eb88902dc5eb"
   integrity sha512-OEdH7SyC1suTdhBGW91/zBfR6qaIhThbcN8PUXtXilY4GYnSBbVqOntdHbC1vXwsDnX0Qix2m2+DSU1J51ybOQ==
 
-"@jupyterlab/application@^2.0.0":
+"@jupyterlab/application@>=2.0.0":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@jupyterlab/application/-/application-2.2.6.tgz#4c505d7196f784c11d533b4539e7b2fbc5d664d6"
   integrity sha512-pW/Cu+t3CYii52YncrbcRWSfAFTIlsDy8yMxgYqkG6TSsImca3Rix3o69jTu264Ct2UQzEWP4+6u2IqF5wziuw==
@@ -209,7 +209,7 @@
     "@lumino/signaling" "^1.3.5"
     "@lumino/widgets" "^1.11.1"
 
-"@jupyterlab/filebrowser@^2.0.0":
+"@jupyterlab/filebrowser@>=2.0.0":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@jupyterlab/filebrowser/-/filebrowser-2.2.5.tgz#91583e262ea56de9ce5d7881a7bf1ee6ba812150"
   integrity sha512-Ysem2dnxAZ1L6BX31idUHptMIFTCEvDqCkhHKsLF6nnEgZT4ZB5UvyDCu8oWMVVmnMTl6F72ky/qOHV0WOl9rg==
@@ -233,7 +233,7 @@
     "@lumino/widgets" "^1.11.1"
     react "~16.9.0"
 
-"@jupyterlab/launcher@^2.0.0":
+"@jupyterlab/launcher@>=2.0.0":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@jupyterlab/launcher/-/launcher-2.2.6.tgz#ce64e782bff14cedb50f72f7f2a37f434a862578"
   integrity sha512-oZx0ODAS0e6U2L/O4q/hXwHN9XWJ5z1RYDlMoczU8ZelJvvgg2AezkEWBJjFe5trbbndm4/kuQKtiLdENpDmUA==
@@ -248,7 +248,7 @@
     "@lumino/widgets" "^1.11.1"
     react "~16.9.0"
 
-"@jupyterlab/mainmenu@^2.0.0":
+"@jupyterlab/mainmenu@>=2.0.0":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@jupyterlab/mainmenu/-/mainmenu-2.2.4.tgz#2bef0045986d47223271319d3a419626a3f96ab7"
   integrity sha512-5EvpMJ+XTeI8YH3vNldCl/epjk8sEvEvKusuifUc1xXLqhX0YpPRL0ebg4NknX2qgeFag94KfQnnGs+pEoWUbg==
@@ -371,7 +371,7 @@
     react "~16.9.0"
     typestyle "^2.0.4"
 
-"@jupyterlab/ui-components@^2.0.0", "@jupyterlab/ui-components@^2.2.4":
+"@jupyterlab/ui-components@>=2.0.0", "@jupyterlab/ui-components@^2.2.4":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@jupyterlab/ui-components/-/ui-components-2.2.4.tgz#693b1fe48d3300de17a7b2b435ea85302cee8c6c"
   integrity sha512-8OqmlDIlf3OHrKqTGHLBbzY6gDyTGT91o5LSyLuOBhIF2TvPorBYnxWk883pO7n4rSVhZbafBb0U3Hl3X9uT3Q==
