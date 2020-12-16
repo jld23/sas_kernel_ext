@@ -11,22 +11,16 @@ import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { sasIcon }  from './CodeSnippetLangues';
+
 import '../style/index.css';
-
-//import {sasIcon}  from './CodeSnippetLangues';
-
-
 
 const FACTORY = 'Editor';
 const PALETTE_CATEGORY = 'Text Editor';
-//const ICON_CLASS = sasIcon;
-
 
 namespace CommandIDs {
   export const createNew = 'fileeditor:create-new-sas-file';
 }
-
-
 
 /**
  * Initialization data for the jl-create-sas-file extension.
@@ -50,8 +44,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       label: args => (args['isPalette'] ? 'New SAS File' : 'SAS File'),
       caption: 'Create a new SAS file',
-      //TODO: Show the SAS Icon next to the entry.
-      //iconClass: args => (args['isPalette'] ? '' : ICON_CLASS),
+      icon: sasIcon,
       execute: async args => {
         const cwd = args['cwd'] || browserFactory.defaultBrowser.model.path;
         const model = await commands.execute('docmanager:new-untitled', {
