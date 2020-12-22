@@ -2,6 +2,9 @@
 Setup Module to setup Python Handlers for the jl-sas-to-nb extension.
 """
 import os
+from setuptools import setup
+from os import path
+import io
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
@@ -67,7 +70,7 @@ setup_args = dict(
     include_package_data=True,
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
-    keywords=["Jupyter", "JupyterLab"],
+    keywords=["Jupyter", "JupyterLab", "SAS", "convert"],
     classifiers=[
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",

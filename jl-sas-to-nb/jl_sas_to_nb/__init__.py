@@ -1,11 +1,10 @@
-from ._version import __version__ 
+from ._version import __version__
 from .handlers import setup_handlers
+from .convertSAS2nb import sas2nb, convert, autoSplit
 
 
 def _jupyter_server_extension_paths():
-    return [{
-        "module": "jl_sas_to_nb"
-    }]
+    return [{"module": "jl_sas_to_nb"}]
 
 
 def load_jupyter_server_extension(lab_app):
@@ -17,4 +16,4 @@ def load_jupyter_server_extension(lab_app):
         JupyterLab application instance
     """
     setup_handlers(lab_app.web_app)
-    lab_app.log.info("Registered HelloWorld extension at URL path /jl-sas-to-nb")
+    lab_app.log.info("Registered Convert sas2nb extension at URL path /jl-sas-to-nb")
