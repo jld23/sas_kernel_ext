@@ -6,7 +6,6 @@ from .convertSAS2nb import sas2nb, convert, autoSplit
 def _jupyter_server_extension_paths():
     return [{"module": "jl_sas_to_nb"}]
 
-
 def load_jupyter_server_extension(lab_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
 

@@ -1,8 +1,12 @@
 import re
 import json
-from os import path
 import nbformat as nbf
+from pathlib import Path
 
+### TODO: overwrite isn't working properly
+
+#base_path = Path('/need/to/get/this/from/jupyter')
+base_path = Path('')
 
 HEADER_COMMENT = "/* %% */\n"
 
@@ -58,25 +62,62 @@ def sas2nb(sas_str):
             nb["cells"].append(nbf.v4.new_code_cell(chunk))
     return nb
 
+def name_exist(fpath):
+    print (fpath, fpath.with_suffix('.ipynb').exists())
+    return fpath.with_suffix('.ipynb').exists()
 
-def convert(in_file, out_file=None):
+def name_generator(in_file):
+    print(in_file.stem)
+    
+    assert isinstance(in_file, Path)
+    if not in_file.exists():
+        print ("file doesn't exist", in_file)
+        return in_file   
+    m = re.search(r'.*-CovertedSAS(\d*)$', in_file.stem)
+    print(in_file.stem)
+    print ("m.group=", m.group())
+    index=0
+    if m is not None:
+        print (m.group())
+        index = m.group()
+    print("index=", index)
+    print(in_file)
+    #in_file.rename(Path(in_file.parent, ''.join([in_file.stem, '-CovertedSAS', in_file.suffix])))
+    if index > 0:
+        pass
+        #in_file.rename(Path(in_file.parent, ''.join([in_file.stem, '-CovertedSAS', str(int(index)+1), in_file.suffix])))
+    # recursion
+    if name_exist(in_file):
+        name_generator(in_file)
+    return in_file
+
+
+def convert(in_file, out_file=None, overwrite = True):
     """
     function to convert SAS program to ipynb using special string values
     """
+    assert isinstance(in_file, Path)
 
-    fname, in_ext = path.splitext(in_file)
     if out_file is None:
-        out_file = ".".join([fname, "ipynb"])
+        out_file = in_file.with_suffix('.ipynb')
 
-    _, out_ext = path.splitext(out_file)
-
-    if in_ext == ".sas" and out_ext == ".ipynb":
+    # check if out_file exists and if so, pick a new name
+    if name_exist(out_file) and overwrite == False:
+        print("name exists")
+        # get name
+        print("outfile1", out_file)
+        out_file = name_generator(out_file)
+        print("outfile2", out_file)
+    if in_file.suffix == ".sas" and out_file.suffix == ".ipynb":
         with open(in_file, "r", encoding="utf-8") as f:
             sas_str = f.read()
             nb_str = autoSplit(sas_str)
         notebook = sas2nb(nb_str)
+        #print(notebook)
         with open(out_file, "w", encoding="utf-8") as f:
-            json.dump(notebook, f, indent=2)
+            json.dump(notebook, f, indent=3)
 
     else:
         raise Exception("Extensions must be .ipynb and .sas")
+    #return json.dumps(notebook,  indent=3)
+    return out_file, name_exist(out_file)
