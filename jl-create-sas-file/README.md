@@ -4,8 +4,6 @@
 
 Jupyter Lab extension to create a SAS file
 
-
-
 ## Requirements
 
 * JupyterLab >= 3.0
@@ -15,7 +13,6 @@ Jupyter Lab extension to create a SAS file
 ```bash
 pip install jl-create-sas-file
 ```
-
 
 ## Contributing
 
