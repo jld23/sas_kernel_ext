@@ -4,20 +4,14 @@ import {
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
-
 import { ILauncher } from '@jupyterlab/launcher';
-
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
-
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { sasIcon }  from './CodeSnippetLangues';
-
-import '../style/index.css';
+import { sasIcon } from './iconImport';
 
 const FACTORY = 'Editor';
 const PALETTE_CATEGORY = 'Text Editor';
-
 namespace CommandIDs {
   export const createNew = 'fileeditor:create-new-sas-file';
 }

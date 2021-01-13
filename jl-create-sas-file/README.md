@@ -2,24 +2,26 @@
 
 ![Github Actions Status](https://github.com/jld23/sas_kernel_ext/workflows/Build/badge.svg)
 
-A small extension to add create SAS file to tool bar
+Jupyter Lab extension to create a SAS file
 
-## TODO
-1. Add SAS icon next to menu item
+
 
 ## Requirements
 
-* JupyterLab >= 2.0
+* JupyterLab >= 3.0
 
 ## Install
 
 ```bash
-jupyter labextension install jl-create-sas-file
+pip install jl-create-sas-file
 ```
+
 
 ## Contributing
 
-### Install
+### Development install
+
+Note: You will need NodeJS to build the extension package.
 
 The `jlpm` command is JupyterLab's pinned version of
 [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
@@ -27,34 +29,34 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Move to jl-create-sas-file directory
-
-# Install dependencies
-jlpm
-# Build Typescript source
-jlpm build
+# Change directory to the jl-create-sas-file directory
+# Install package in development mode
+pip install -e .
 # Link your development version of the extension with JupyterLab
-jupyter labextension install .
-# Rebuild Typescript source after making changes
-jlpm build
-# Rebuild JupyterLab after making any changes
-jupyter lab build
+jupyter labextension develop . --overwrite
+# Rebuild extension Typescript source after making changes
+jlpm run build
 ```
 
-You can watch the source directory and run JupyterLab in watch mode to watch for changes in the extension's source and automatically rebuild the extension and application.
+You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension's source and automatically rebuild the extension.
 
 ```bash
-# Watch the source directory in another terminal tab
-jlpm watch
-# Run jupyterlab in watch mode in one terminal tab
-jupyter lab --watch
+# Watch the source directory in one terminal, automatically rebuilding when needed
+jlpm run watch
+# Run JupyterLab in another terminal
+jupyter lab
 ```
 
-Now every change will be built locally and bundled into JupyterLab. Be sure to refresh your browser page after saving file changes to reload the extension (note: you'll need to wait for webpack to finish, which can take 10s+ at times).
+With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
+
+By default, the `jlpm run build` command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:
+
+```bash
+jupyter lab build --minimize=False
+```
 
 ### Uninstall
 
 ```bash
-
-jupyter labextension uninstall jl-create-sas-file
+pip uninstall jl-create-sas-file
 ```
