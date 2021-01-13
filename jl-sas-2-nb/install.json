@@ -1,0 +1,5 @@
+{
+  "packageManager": "python",
+  "packageName": "jl-sas-2-nb",
+  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package jl-sas-2-nb"
+}
