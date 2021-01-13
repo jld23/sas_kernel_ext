@@ -75,6 +75,13 @@ const extension: JupyterFrontEndPlugin<void> = {
     if (menu) {
       menu.fileMenu.newMenu.addGroup([{ command }], 30);
     }
+
+    // add to context menu
+    app.contextMenu.addItem({
+      command: command,
+      selector: '.jp-DirListing-content',
+      rank: 0
+    });
   }
 };
 
