@@ -1,7 +1,0 @@
-{
-  "NotebookApp": {
-    "nbserver_extensions": {
-      "jl_sas_to_nb": true
-    }
-  }
-}
