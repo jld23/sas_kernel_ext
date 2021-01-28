@@ -1,6 +1,6 @@
 {
   "name": "jlab-sas-2-nb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "JLab extension to convert a SAS file to a Jupyter Notebook.",
   "keywords": [
     "jupyter",
@@ -43,12 +43,11 @@
     "watch:labextension": "jupyter labextension watch ."
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.0",
-    "@jupyterlab/coreutils": "^5.0.0",
-    "@jupyterlab/launcher" : "^3.0.0",
-    "@jupyterlab/filebrowser" : "^3.0.0",
-    "@jupyterlab/services": "^6.0.0"
-
+    "@jupyterlab/application": "^3.0.3",
+    "@jupyterlab/coreutils": "^5.0.1",
+    "@jupyterlab/filebrowser": "^3.0.3",
+    "@jupyterlab/launcher": "^3.0.2",
+    "@jupyterlab/services": "^6.0.2"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^3.0.0",
@@ -56,8 +55,8 @@
     "@typescript-eslint/parser": "^4.8.1",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.1.4", 
-    "mkdirp": "^1.0.3", 
+    "eslint-plugin-prettier": "^3.1.4",
+    "mkdirp": "^1.0.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.1",
     "rimraf": "^3.0.2",
@@ -68,17 +67,17 @@
     "style/index.js"
   ],
   "styleModule": "style/index.js",
-  "jupyterlab": { 
+  "jupyterlab": {
     "discovery": {
-        "server": {
-          "managers": [
-            "pip"
-          ],
-          "base": {
-            "name": "jlab_sas_2_nb"
-          }
+      "server": {
+        "managers": [
+          "pip"
+        ],
+        "base": {
+          "name": "jlab_sas_2_nb"
         }
-    }, 
+      }
+    },
     "extension": true,
     "outputDir": "jlab_sas_2_nb/labextension"
   }

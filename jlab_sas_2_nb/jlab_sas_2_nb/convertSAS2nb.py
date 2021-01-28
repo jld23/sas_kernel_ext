@@ -4,41 +4,46 @@ import subprocess
 import nbformat as nbf
 from pathlib import Path
 
-### TODO: overwrite isn't working properly
+# TODO: overwrite isn't working properly
 HEADER_COMMENT = "/* %% */\n"
+
 
 def get_base_path(origin):
     try:
         process = subprocess.Popen(['jupyter', 'notebook', 'list'],
-                     stdout=subprocess.PIPE, 
-                     stderr=subprocess.PIPE)
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         servers = stdout.decode("utf-8").split('\n')
         d = dict(x.split("::") for x in servers if x.startswith('http'))
-        n_dict = {k.replace(' ', ''): v.replace(' ','') for k, v in d.items()}
-        print("n_dict", n_dict)
+        n_dict = {k.replace(' ', ''): v.replace(' ', '') for k, v in d.items()}
+
     except:
         n_dict = {}
-    print(n_dict)
-    
+    # print("n_dict", n_dict)
+
     try:
         process = subprocess.Popen(['jupyter', 'server', 'list'],
-                     stdout=subprocess.PIPE, 
-                     stderr=subprocess.PIPE)
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         servers = stdout.decode("utf-8").split('\n')
         d = dict(x.split("::") for x in servers if x.startswith('http'))
-        s_dict = {k.replace(' ', ''): v.replace(' ','') for k, v in d.items()}
+        s_dict = {k.replace(' ', ''): v.replace(' ', '') for k, v in d.items()}
     except:
         s_dict = {}
-    print("s_dict", s_dict)
+    # print("s_dict", s_dict)
     s_dict.update(n_dict)
+    # print("s_dict after update", s_dict)
     try:
-        return [v for k,v in s_dict.items() if k.startswith(origin)][0]
+        # print("path:", [v for k, v in s_dict.items() if k.startswith(origin)][0])
+        # print("path type:", type([v for k, v in s_dict.items() if k.startswith(origin)][0]))
+        return [v for k, v in s_dict.items() if k.startswith(origin)][0]
     except IndexError:
         return None
 
-def autoSplit(sas_str):
+
+def auto_split(sas_str):
     regex_block = r"""
 	((%macro\b|data\b|proc\b).*?(%mend\b.*?;|run;|quit;))
 	"""
@@ -47,9 +52,7 @@ def autoSplit(sas_str):
                ^/\*\s%%\s\*/$
                """
     # Does the file already have cell seperators
-    if re.search(
-        regex_hc, sas_str, re.MULTILINE | re.IGNORECASE | re.VERBOSE | re.DOTALL
-    ):
+    if re.search(regex_hc, sas_str, re.MULTILINE | re.IGNORECASE | re.VERBOSE | re.DOTALL):
         return sas_str
     # separate every macro, proc and data step
     return re.sub(
@@ -60,13 +63,14 @@ def autoSplit(sas_str):
         re.MULTILINE | re.IGNORECASE | re.VERBOSE | re.DOTALL,
     )
 
+
 def sas2nb(sas_str):
     """
     convert SAS file to ipynb
     """
     # remove leading header comment
     if sas_str.startswith(HEADER_COMMENT):
-        sas_str = sas_str[len(HEADER_COMMENT) :]
+        sas_str = sas_str[len(HEADER_COMMENT):]
 
     # cells = []
     chunks = sas_str.split("\n\n%s" % HEADER_COMMENT)
@@ -88,23 +92,24 @@ def sas2nb(sas_str):
             nb["cells"].append(nbf.v4.new_code_cell(chunk))
     return nb
 
+
 def name_exist(fpath):
-    print (fpath, fpath.with_suffix('.ipynb').exists())
+    print(fpath, fpath.with_suffix('.ipynb').exists())
     return fpath.with_suffix('.ipynb').exists()
+
 
 def name_generator(in_file):
     print(in_file.stem)
-    
     assert isinstance(in_file, Path)
     if not in_file.exists():
-        print ("file doesn't exist", in_file)
-        return in_file   
+        print("file doesn't exist", in_file)
+        return in_file
     m = re.search(r'.*-CovertedSAS(\d*)$', in_file.stem)
     print(in_file.stem)
-    print ("m.group=", m.group())
-    index=0
+    print("m.group=", m.group())
+    index = 0
     if m is not None:
-        print (m.group())
+        print(m.group())
         index = m.group()
     print("index=", index)
     print(in_file)
@@ -118,7 +123,7 @@ def name_generator(in_file):
     return in_file
 
 
-def convert(in_file, out_file=None, overwrite = True):
+def convert(in_file, out_file=None, overwrite=True):
     """
     function to convert SAS program to ipynb using special string values
     """
@@ -128,7 +133,7 @@ def convert(in_file, out_file=None, overwrite = True):
         out_file = in_file.with_suffix('.ipynb')
 
     # check if out_file exists and if so, pick a new name
-    if name_exist(out_file) and overwrite == False:
+    if name_exist(out_file) and not overwrite:
         print("name exists")
         # get name
         print("outfile1", out_file)
@@ -137,13 +142,12 @@ def convert(in_file, out_file=None, overwrite = True):
     if in_file.suffix == ".sas" and out_file.suffix == ".ipynb":
         with open(in_file, "r", encoding="utf-8") as f:
             sas_str = f.read()
-            nb_str = autoSplit(sas_str)
+            nb_str = auto_split(sas_str)
         notebook = sas2nb(nb_str)
-        #print(notebook)
+        # print(notebook)
         with open(out_file, "w", encoding="utf-8") as f:
             json.dump(notebook, f, indent=3)
 
     else:
         raise Exception("Extensions must be .ipynb and .sas")
-    #return json.dumps(notebook,  indent=3)
-    return out_file.name, name_exist(out_file)
+    return out_file.name

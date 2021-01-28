@@ -17,7 +17,7 @@ export async function requestAPI<T>(
   const settings = ServerConnection.makeSettings();
   const requestUrl = URLExt.join(
     settings.baseUrl,
-    'jlab_sas_2_nb', // API Namespace
+    'jlab-sas-2-nb',
     endPoint
   );
 
@@ -28,18 +28,10 @@ export async function requestAPI<T>(
     throw new ServerConnection.NetworkError(error);
   }
 
-  let data: any = await response.text();
-
-  if (data.length > 0) {
-    try {
-      data = JSON.parse(data);
-    } catch (error) {
-      console.log('Not a JSON response body.', response);
-    }
-  }
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new ServerConnection.ResponseError(response, data.message || data);
+    throw new ServerConnection.ResponseError(response, data.message);
   }
 
   return data;
