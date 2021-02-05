@@ -47,6 +47,7 @@
     "@jupyterlab/apputils": "^3.0.3",
     "@jupyterlab/coreutils": "^5.0.0",
     "@jupyterlab/filebrowser": "^3.0.4",
+    "@jupyterlab/outputarea": "^3.0.4",
     "@jupyterlab/services": "^6.0.0"
   },
   "devDependencies": {
