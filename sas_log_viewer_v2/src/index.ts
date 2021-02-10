@@ -33,34 +33,34 @@ import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import { AttachedProperty } from '@lumino/properties';
 
-import { KernelSpyView } from './widget';
+import { SASLogView } from './widget';
 import { requestAPI } from './handler';
 
 /**
  * IDs of the commands added by this extension.
  */
 namespace CommandIDs {
-  export const newSpy = 'kernelspy:new';
+  export const newSpy = 'saslog:new';
 }
 
 /**
  * The token identifying the JupyterLab plugin.
  */
-export const IKernelSpyExtension = new Token<IKernelSpyExtension>(
-  'jupyter.extensions.kernelspy'
+export const ISASLogExtension = new Token<ISASLogExtension>(
+  'jupyter.extensions.saslog'
 );
 
-export type IKernelSpyExtension = DocumentRegistry.IWidgetExtension<
+export type ISASLogExtension = DocumentRegistry.IWidgetExtension<
   NotebookPanel,
   INotebookModel
 >;
 
-const spyProp = new AttachedProperty<KernelSpyView, string>({
+const spyProp = new AttachedProperty<SASLogView, string>({
   create: () => '',
   name: 'SpyTarget'
 });
 
-export class KernelSpyExtension implements IKernelSpyExtension {
+export class KernelSpyExtension implements ISASLogExtension {
   /**
    *
    */
@@ -88,7 +88,7 @@ export class KernelSpyExtension implements IKernelSpyExtension {
     let i = 1;
     for (const id of [CommandIDs.newSpy]) {
       const button = new CommandToolbarButton({ id, commands: this.commands });
-      button.addClass('jp-kernelspy-nbtoolbarbutton');
+      button.addClass('jp-saslog-nbtoolbarbutton');
       if (insertionPoint >= 0) {
         nb.toolbar.insertItem(
           insertionPoint + i++,
@@ -118,7 +118,7 @@ export class KernelSpyExtension implements IKernelSpyExtension {
 function addCommands(
   app: JupyterFrontEnd,
   tracker: INotebookTracker,
-  spyTracker: WidgetTracker<MainAreaWidget<KernelSpyView>>,
+  spyTracker: WidgetTracker<MainAreaWidget<SASLogView>>,
   palette: ICommandPalette | null,
   menu: IMainMenu | null
 ): void {
@@ -136,9 +136,10 @@ function addCommands(
   }
 
   commands.addCommand(CommandIDs.newSpy, {
-    label: 'New kernel spy',
-    caption: 'Open a window to inspect messages sent to/from a kernel',
-    iconClass: 'jp-Icon jp-Icon-16 jp-kernelspyIcon',
+    label: 'Show SAS Log',
+    caption: 'Show the SAS log for the associated notebook',
+    iconClass: 'jp-Icon jp-Icon-16 jp-saslogIcon',
+    // iconClass: 'sasLogIcon',
     isEnabled: hasKernel,
     execute: args => {
       let notebook: NotebookPanel | null;
@@ -150,7 +151,7 @@ function addCommands(
       if (!notebook) {
         return;
       }
-      const widget = new KernelSpyView(
+      const widget = new SASLogView(
         notebook.context.sessionContext?.session?.kernel
       );
 
@@ -193,12 +194,12 @@ function addCommands(
 /**
  * Initialization data for the sas-log-viewer-v2 extension.
  */
-const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
+const extension: JupyterFrontEndPlugin<ISASLogExtension> = {
   id: 'sas-log-viewer-v2:plugin',
   autoStart: true,
   requires: [INotebookTracker],
   optional: [ICommandPalette, IMainMenu, ILayoutRestorer],
-  provides: IKernelSpyExtension,
+  provides: ISASLogExtension,
   activate: async (
     app: JupyterFrontEnd,
     tracker: INotebookTracker,
@@ -212,8 +213,8 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
     docRegistry.addWidgetExtension('Notebook', extension);
 
     // Recreate views from layout restorer
-    const spyTracker = new WidgetTracker<MainAreaWidget<KernelSpyView>>({
-      namespace: 'kernelspy'
+    const spyTracker = new WidgetTracker<MainAreaWidget<SASLogView>>({
+      namespace: 'saslog'
     });
     if (restorer) {
       void restorer.restore(spyTracker, {

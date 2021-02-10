@@ -91,26 +91,26 @@ function Message(props: Message.IProperties): React.ReactElement<any>[] {
   return [
     <div
       key={`threadnode-${msgId}`}
-      className="jp-kernelspy-threadnode"
+      className="jp-saslog-threadnode"
       onClick={() => {
         props.onCollapse(props.message);
       }}
     >
       <div style={{ paddingLeft: 16 * props.depth }}>
         <button
-          className={`jp-kernelspy-threadcollapser ${threadStateClass} ${hasChildrenClass}`}
+          className={`jp-saslog-threadcollapser ${threadStateClass} ${hasChildrenClass}`}
           tabIndex={tabIndex}
         >
           {collapserIcon && (
             <collapserIcon.react className={'kspy-collapser-icon'} />
           )}
         </button>
-        <span className="jp-kernelspy-threadlabel">
+        <span className="jp-saslog-threadlabel">
           {msg.channel}.{msg.header.msg_type}
         </span>
       </div>
     </div>,
-    <div key={`message-${msgId}`} className="jp-kernelspy-message">
+    <div key={`message-${msgId}`} className="jp-saslog-message">
       <ObjectInspector
         data={msg}
         theme={theme as any}
@@ -136,8 +136,8 @@ namespace Message {
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   constructor(model: KernelSpyModel) {
     super(model);
-    this.id = `kernelspy-messagelog-${UUID.uuid4()}`;
-    this.addClass('jp-kernelspy-messagelog');
+    this.id = `saslog-messagelog-${UUID.uuid4()}`;
+    this.addClass('jp-saslog-messagelog');
   }
 
   /**
@@ -148,15 +148,15 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     const elements: React.ReactElement<any>[] = [];
 
     elements.push(
-      <span key="header-thread" className="jp-kernelspy-logheader">
+      <span key="header-thread" className="jp-saslog-logheader">
         Threads
       </span>,
-      <span key="header-contents" className="jp-kernelspy-logheader">
+      <span key="header-contents" className="jp-saslog-logheader">
         Contents
       </span>,
       <span
         key="header-divider"
-        className="jp-kernelspy-logheader jp-kernelspy-divider"
+        className="jp-saslog-logheader jp-saslog-divider"
       />
     );
 
@@ -173,7 +173,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
           elements.push(
             <span
               key={`'divider-${args.msg.header.msg_id}`}
-              className="jp-kernelspy-divider"
+              className="jp-saslog-divider"
             />
           );
         }
@@ -218,12 +218,12 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
 /**
  * The main view for the kernel spy.
  */
-export class KernelSpyView extends Widget {
+export class SASLogView extends Widget {
   constructor(kernel?: Kernel.IKernelConnection | null) {
     super();
     this._model = new KernelSpyModel(kernel);
-    this.addClass('jp-kernelspy-view');
-    this.id = `kernelspy-${UUID.uuid4()}`;
+    this.addClass('jp-saslog-view');
+    this.id = `saslog-${UUID.uuid4()}`;
     this.title.label = 'SAS Log';
     this.title.closable = true;
     // this.title.icon = jsonIcon;
@@ -232,7 +232,7 @@ export class KernelSpyView extends Widget {
     const layout = (this.layout = new BoxLayout());
 
     this._toolbar = new Toolbar();
-    this._toolbar.addClass('jp-kernelspy-toolbar');
+    this._toolbar.addClass('jp-saslog-toolbar');
 
     this._messagelog = new MessageLogView(this._model);
 
@@ -246,7 +246,7 @@ export class KernelSpyView extends Widget {
       onClick: () => {
         this._messagelog.collapseAll();
       },
-      className: 'jp-kernelspy-collapseAll',
+      className: 'jp-saslog-collapseAll',
       icon: caretRightIcon,
       tooltip: 'Collapse all threads'
     });
@@ -256,7 +256,7 @@ export class KernelSpyView extends Widget {
       onClick: () => {
         this._messagelog.expandAll();
       },
-      className: 'jp-kernelspy-expandAll',
+      className: 'jp-saslog-expandAll',
       icon: caretDownIcon,
       tooltip: 'Expand all threads'
     });
@@ -266,7 +266,7 @@ export class KernelSpyView extends Widget {
       onClick: () => {
         this._model.clear();
       },
-      className: 'jp-kernelspy-clearAll',
+      className: 'jp-saslog-clearAll',
       icon: closeIcon,
       tooltip: 'Clear all threads'
     });
