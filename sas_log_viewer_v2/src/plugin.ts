@@ -34,7 +34,6 @@ import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 import { AttachedProperty } from '@lumino/properties';
 
 import { KernelSpyView } from './widget';
-import { requestAPI } from './handler';
 
 /**
  * IDs of the commands added by this extension.
@@ -189,12 +188,11 @@ function addCommands(
   menu?.kernelMenu.addGroup([{ command: CommandIDs.newSpy }]);
 }
 
-
 /**
- * Initialization data for the sas-log-viewer-v2 extension.
+ * Initialization data for the jupyterlab-kernelspy extension.
  */
 const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
-  id: 'sas-log-viewer-v2:plugin',
+  id: 'jupyterlab-kernelspy',
   autoStart: true,
   requires: [INotebookTracker],
   optional: [ICommandPalette, IMainMenu, ILayoutRestorer],
@@ -206,7 +204,6 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
     mainMenu: IMainMenu | null,
     restorer: ILayoutRestorer | null
   ) => {
-    console.log('JupyterLab extension sas-log-viewer-v2 is activated!');
     const { commands, docRegistry } = app;
     const extension = new KernelSpyExtension(commands);
     docRegistry.addWidgetExtension('Notebook', extension);
@@ -226,6 +223,7 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
         when: tracker.restored
       });
     }
+
     addCommands(app, tracker, spyTracker, palette, mainMenu);
     function refreshNewCommand() {
       commands.notifyCommandChanged(CommandIDs.newSpy);
@@ -252,15 +250,6 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
         );
       }
     });
-    requestAPI<any>('get_log')
-      .then(data => {
-        console.log(data);
-      })
-      .catch(reason => {
-        console.error(
-          `The sas_log_viewer_v2 server extension appears to be missing.\n${reason}`
-        );
-      });
     return extension;
   }
 };
