@@ -155,9 +155,9 @@ function addCommands(
         notebook.context.sessionContext?.session?.kernel
       );
 
-      widget.title.label = `Kernel spy: ${notebook.title.label}`;
+      widget.title.label = `SAS Log: ${notebook.title.label}`;
       notebook.title.changed.connect(() => {
-        widget.title.label = `Kernel spy: ${notebook!.title.label}`;
+        widget.title.label = `SAS Log: ${notebook!.title.label}`;
       });
 
       const outer = new MainAreaWidget({ content: widget });

@@ -17,7 +17,7 @@ import { each } from '@lumino/algorithm';
 
 import { UUID } from '@lumino/coreutils';
 
-import { Message as luminoMessage } from '@lumino/messaging';
+// import { Message as luminoMessage } from '@lumino/messaging';
 
 import { Widget, BoxLayout } from '@lumino/widgets';
 
@@ -149,10 +149,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
 
     elements.push(
       <span key="header-thread" className="jp-saslog-logheader">
-        Threads
-      </span>,
-      <span key="header-contents" className="jp-saslog-logheader">
-        Contents
+        SAS Submission
       </span>,
       <span
         key="header-divider"
@@ -242,25 +239,25 @@ export class SASLogView extends Widget {
     BoxLayout.setStretch(this._toolbar, 0);
     BoxLayout.setStretch(this._messagelog, 1);
 
-    this.collapseAllButton = new ToolbarButton({
-      onClick: () => {
-        this._messagelog.collapseAll();
-      },
-      className: 'jp-saslog-collapseAll',
-      icon: caretRightIcon,
-      tooltip: 'Collapse all threads'
-    });
-    this._toolbar.addItem('collapse-all', this.collapseAllButton);
+    // this.collapseAllButton = new ToolbarButton({
+    //   onClick: () => {
+    //     this._messagelog.collapseAll();
+    //   },
+    //   className: 'jp-saslog-collapseAll',
+    //   icon: caretRightIcon,
+    //   tooltip: 'Collapse all threads'
+    // });
+    // this._toolbar.addItem('collapse-all', this.collapseAllButton);
 
-    this.expandAllButton = new ToolbarButton({
-      onClick: () => {
-        this._messagelog.expandAll();
-      },
-      className: 'jp-saslog-expandAll',
-      icon: caretDownIcon,
-      tooltip: 'Expand all threads'
-    });
-    this._toolbar.addItem('expand-all', this.expandAllButton);
+    // this.expandAllButton = new ToolbarButton({
+    //   onClick: () => {
+    //     this._messagelog.expandAll();
+    //   },
+    //   className: 'jp-saslog-expandAll',
+    //   icon: caretDownIcon,
+    //   tooltip: 'Expand all threads'
+    // });
+    // this._toolbar.addItem('expand-all', this.expandAllButton);
 
     this.clearAllButton = new ToolbarButton({
       onClick: () => {
@@ -276,11 +273,11 @@ export class SASLogView extends Widget {
   /**
    * Handle `'activate-request'` messages.
    */
-  protected onActivateRequest(msg: luminoMessage): void {
-    if (!this.node.contains(document.activeElement)) {
-      this.collapseAllButton.node.focus();
-    }
-  }
+  // protected onActivateRequest(msg: luminoMessage): void {
+  //   if (!this.node.contains(document.activeElement)) {
+  //     this.collapseAllButton.node.focus();
+  //   }
+  // }
 
   get model(): KernelSpyModel {
     return this._model;
@@ -292,6 +289,6 @@ export class SASLogView extends Widget {
   private _model: KernelSpyModel;
 
   protected clearAllButton: ToolbarButton;
-  protected expandAllButton: ToolbarButton;
-  protected collapseAllButton: ToolbarButton;
+  // protected expandAllButton: ToolbarButton;
+  // protected collapseAllButton: ToolbarButton;
 }
