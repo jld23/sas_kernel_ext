@@ -14,7 +14,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     console.log('JupyterLab extension sas-log-viewer-v2 is activated!');
 
-    requestAPI<any>('get_example')
+    requestAPI<any>('get_log')
       .then(data => {
         console.log(data);
       })
