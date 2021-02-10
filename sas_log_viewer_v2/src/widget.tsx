@@ -9,8 +9,8 @@ import { KernelMessage, Kernel } from '@jupyterlab/services';
 import {
   caretDownIcon,
   caretRightIcon,
-  closeIcon,
-  jsonIcon
+  closeIcon
+  // jsonIcon
 } from '@jupyterlab/ui-components';
 
 import { each } from '@lumino/algorithm';
@@ -30,6 +30,8 @@ import {
 import { KernelSpyModel, ThreadIterator } from './model';
 
 import '../style/index.css';
+import { sasLogIcon } from './iconImport';
+
 
 const theme = {
   BASE_FONT_FAMILY: 'var(--jp-code-font-family)',
@@ -222,9 +224,10 @@ export class KernelSpyView extends Widget {
     this._model = new KernelSpyModel(kernel);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${UUID.uuid4()}`;
-    this.title.label = 'Kernel spy';
+    this.title.label = 'SAS Log';
     this.title.closable = true;
-    this.title.iconRenderer = jsonIcon;
+    // this.title.icon = jsonIcon;
+    this.title.icon = sasLogIcon;
 
     const layout = (this.layout = new BoxLayout());
 
