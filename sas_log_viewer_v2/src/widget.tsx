@@ -127,9 +127,6 @@ namespace Message {
   }
 }
 
-/**
- * The main view for the kernel spy.
- */
 export class MessageLogView extends VDomRenderer<SASLogModel> {
   constructor(model: SASLogModel) {
     super(model);
@@ -172,34 +169,24 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
           );
         }
       }
-      // display log results
+      // display SAS log results
       const collapsed = this.collapsed[args.msg.header.msg_id];
-      elements.push(
-        ...Message({
-          message: args.msg,
-          depth,
-          collapsed,
-          hasChildren,
-          onCollapse: message => {
-            this.onCollapse(message);
-          }
-        })
-      );
+      if (args.msg.header.msg_type == 'execute_input') {
+        elements.push(
+          ...Message({
+            message: args.msg,
+            depth,
+            collapsed,
+            hasChildren,
+            onCollapse: message => {
+              this.onCollapse(message);
+            }
+          })
+        );
+      }
     });
     return elements;
   }
-
-  // collapseAll() {
-  //   for (const args of this.model!.log) {
-  //     this.collapsed[args.msg.header.msg_id] = true;
-  //   }
-  //   this.update();
-  // }
-
-  // expandAll() {
-  //   this.collapsed = {};
-  //   this.update();
-  // }
 
   onCollapse(msg: KernelMessage.IMessage) {
     const id = msg.header.msg_id;
@@ -210,9 +197,6 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
   protected collapsed: { [key: string]: boolean } = {};
 }
 
-/**
- * The main view for the kernel spy.
- */
 export class SASLogView extends Widget {
   constructor(kernel?: Kernel.IKernelConnection | null) {
     super();
@@ -236,26 +220,6 @@ export class SASLogView extends Widget {
     BoxLayout.setStretch(this._toolbar, 0);
     BoxLayout.setStretch(this._messagelog, 1);
 
-    // this.collapseAllButton = new ToolbarButton({
-    //   onClick: () => {
-    //     this._messagelog.collapseAll();
-    //   },
-    //   className: 'jp-saslog-collapseAll',
-    //   icon: caretRightIcon,
-    //   tooltip: 'Collapse all threads'
-    // });
-    // this._toolbar.addItem('collapse-all', this.collapseAllButton);
-
-    // this.expandAllButton = new ToolbarButton({
-    //   onClick: () => {
-    //     this._messagelog.expandAll();
-    //   },
-    //   className: 'jp-saslog-expandAll',
-    //   icon: caretDownIcon,
-    //   tooltip: 'Expand all threads'
-    // });
-    // this._toolbar.addItem('expand-all', this.expandAllButton);
-
     this.clearAllButton = new ToolbarButton({
       onClick: () => {
         this._model.clear();
@@ -270,11 +234,6 @@ export class SASLogView extends Widget {
   /**
    * Handle `'activate-request'` messages.
    */
-  // protected onActivateRequest(msg: luminoMessage): void {
-  //   if (!this.node.contains(document.activeElement)) {
-  //     this.collapseAllButton.node.focus();
-  //   }
-  // }
 
   get model(): SASLogModel {
     return this._model;
@@ -286,6 +245,4 @@ export class SASLogView extends Widget {
   private _model: SASLogModel;
 
   protected clearAllButton: ToolbarButton;
-  // protected expandAllButton: ToolbarButton;
-  // protected collapseAllButton: ToolbarButton;
 }
