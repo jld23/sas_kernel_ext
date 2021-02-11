@@ -10,14 +10,11 @@ import {
   caretDownIcon,
   caretRightIcon,
   closeIcon
-  // jsonIcon
 } from '@jupyterlab/ui-components';
 
 import { each } from '@lumino/algorithm';
 
 import { UUID } from '@lumino/coreutils';
-
-// import { Message as luminoMessage } from '@lumino/messaging';
 
 import { Widget, BoxLayout } from '@lumino/widgets';
 
@@ -27,7 +24,7 @@ import {
   InspectorNodeParams
 } from 'react-inspector';
 
-import { KernelSpyModel, ThreadIterator } from './model';
+import { SASLogModel, ThreadIterator } from './model';
 
 import '../style/index.css';
 import { sasLogIcon } from './iconImport';
@@ -133,8 +130,8 @@ namespace Message {
 /**
  * The main view for the kernel spy.
  */
-export class MessageLogView extends VDomRenderer<KernelSpyModel> {
-  constructor(model: KernelSpyModel) {
+export class MessageLogView extends VDomRenderer<SASLogModel> {
+  constructor(model: SASLogModel) {
     super(model);
     this.id = `saslog-messagelog-${UUID.uuid4()}`;
     this.addClass('jp-saslog-messagelog');
@@ -175,6 +172,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
           );
         }
       }
+      // display log results
       const collapsed = this.collapsed[args.msg.header.msg_id];
       elements.push(
         ...Message({
@@ -191,17 +189,17 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     return elements;
   }
 
-  collapseAll() {
-    for (const args of this.model!.log) {
-      this.collapsed[args.msg.header.msg_id] = true;
-    }
-    this.update();
-  }
+  // collapseAll() {
+  //   for (const args of this.model!.log) {
+  //     this.collapsed[args.msg.header.msg_id] = true;
+  //   }
+  //   this.update();
+  // }
 
-  expandAll() {
-    this.collapsed = {};
-    this.update();
-  }
+  // expandAll() {
+  //   this.collapsed = {};
+  //   this.update();
+  // }
 
   onCollapse(msg: KernelMessage.IMessage) {
     const id = msg.header.msg_id;
@@ -218,12 +216,11 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
 export class SASLogView extends Widget {
   constructor(kernel?: Kernel.IKernelConnection | null) {
     super();
-    this._model = new KernelSpyModel(kernel);
+    this._model = new SASLogModel(kernel);
     this.addClass('jp-saslog-view');
     this.id = `saslog-${UUID.uuid4()}`;
     this.title.label = 'SAS Log';
     this.title.closable = true;
-    // this.title.icon = jsonIcon;
     this.title.icon = sasLogIcon;
 
     const layout = (this.layout = new BoxLayout());
@@ -265,7 +262,7 @@ export class SASLogView extends Widget {
       },
       className: 'jp-saslog-clearAll',
       icon: closeIcon,
-      tooltip: 'Clear all threads'
+      tooltip: 'Clear all SAS Submissions'
     });
     this._toolbar.addItem('clear-all', this.clearAllButton);
   }
@@ -279,14 +276,14 @@ export class SASLogView extends Widget {
   //   }
   // }
 
-  get model(): KernelSpyModel {
+  get model(): SASLogModel {
     return this._model;
   }
 
   private _toolbar: Toolbar<Widget>;
   private _messagelog: MessageLogView;
 
-  private _model: KernelSpyModel;
+  private _model: SASLogModel;
 
   protected clearAllButton: ToolbarButton;
   // protected expandAllButton: ToolbarButton;

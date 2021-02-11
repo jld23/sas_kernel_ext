@@ -77,7 +77,7 @@ export namespace ThreadIterator {
 /**
  * Model for a kernel spy.
  */
-export class KernelSpyModel extends VDomModel {
+export class SASLogModel extends VDomModel {
   constructor(kernel?: Kernel.IKernelConnection | null) {
     super();
     this.kernel = kernel ?? null;

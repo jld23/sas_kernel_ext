@@ -127,6 +127,7 @@ function addCommands(
   /**
    * Whether there is an active notebook.
    */
+  // TODO: Add condition is the notebook is SAS
   function hasKernel(): boolean {
     return (
       tracker.currentWidget !== null &&
