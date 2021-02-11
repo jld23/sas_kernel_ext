@@ -60,7 +60,7 @@ const spyProp = new AttachedProperty<SASLogView, string>({
   name: 'SpyTarget'
 });
 
-export class KernelSpyExtension implements ISASLogExtension {
+export class SASLogExtension implements ISASLogExtension {
   /**
    *
    */
@@ -132,7 +132,8 @@ function addCommands(
     return (
       tracker.currentWidget !== null &&
       (tracker.currentWidget.context.sessionContext?.session?.kernel ??
-        null) !== null
+        null) !== null &&
+        tracker.currentWidget.sessionContext.prevKernelName == 'sas'
     );
   }
 
@@ -210,7 +211,7 @@ const extension: JupyterFrontEndPlugin<ISASLogExtension> = {
   ) => {
     console.log('JupyterLab extension sas-log-viewer-v2 is activated!');
     const { commands, docRegistry } = app;
-    const extension = new KernelSpyExtension(commands);
+    const extension = new SASLogExtension(commands);
     docRegistry.addWidgetExtension('Notebook', extension);
 
     // Recreate views from layout restorer
