@@ -103,11 +103,14 @@ function Message(props: Message.IProperties): React.ReactElement<any>[] {
           )}
         </button>
         <span className="jp-saslog-threadlabel">
-          {msg.channel}.{msg.header.msg_type}
+          {msg.header.date}
         </span>
       </div>
     </div>,
-    <div key={`message-${msgId}`} className="jp-saslog-message">
+    // <div key={`message-${msg.content}`} className="jp-saslog-message">
+    <div key={'SAS Log Output'} className="jp-saslog-message">
+      {/* TODO: Need to add msg.content.text but throwing error at compile time */}
+      {/* <div key={`message-${msg.content.txt}`} className="jp-saslog-message"></div> */}
       <ObjectInspector
         data={msg}
         theme={theme as any}
@@ -171,7 +174,26 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
       }
       // display SAS log results
       const collapsed = this.collapsed[args.msg.header.msg_id];
+      // TODO:
+      // What should happen is listen the if condition below. Then call model.kernel.requestExecute({code :'%showLog'});
+      // In the response from `requestExecute` in args.msg.content?.text will contain the text that we want to display. 
+      // It should have ascii codes to color the text so nothing needs to be done but render in the window.
       if (args.msg.header.msg_type == 'execute_input') {
+        // Call %showLog magic to get the log from the last submission
+        // https://jupyterlab.github.io/jupyterlab/modules/_services_src_index_._services_src_kernel_kernel_.ikernelconnection.html#requestexecute
+        // TODO: get the format correct
+        console.log("%showLog Requested")
+        // window.alert("model.kernel.requestExecute({code :'%showLog'});");
+        // model.kernel.requestExecute({code :'%showLog'});
+      }
+      // This is just used to filter the messages in the window during development.
+      // When feature complete only the text will be pushed to the elements stack for rendering
+      if (args.msg.header.msg_type == 'stream') {
+        // window.alert("Potential Results");
+
+        // if (args.msg.header.msg_type =='stream' && args.msg.content.name == 'stdout') {
+          // window.alert(args.msg.content?.text)
+        // }
         elements.push(
           ...Message({
             message: args.msg,
