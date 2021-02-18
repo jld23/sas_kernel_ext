@@ -78,7 +78,7 @@ button.jp-saslog-threadcollapser {
 }
 
 .jp-saslogIcon {
-  background-image: var(--sasLogIcon);
+  background-image: url(../style/icons/Jupyter_Log.svg);
 }
 
 .jp-saslog-nbtoolbarbutton .jp-ToolbarButtonComponent-label {
