@@ -11,3 +11,7 @@ sas_container/id_rsa.pub
 sas_container/post_deploy.sh
 sasShowLog/__pycache__/*
 .ipynb_checkpoints/*
+**/Untitled*.ipynb
+**/untitled*.ipynb
+**/Untitled*.sas
+**/untitled*.sas
