@@ -186,7 +186,7 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
         // make async, look for msg id + stream type
         // window.alert("model.kernel.requestExecute({code :'%showLog'});");
         let future = model.kernel.requestExecute({code :'%showLog'})
-        future.onIOPub = (msg) => {
+        future.onReply = (msg) => {
           if (msg.content.hasOwnProperty('text')) {
             console.log("Received message", msg);
           }
