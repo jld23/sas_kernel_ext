@@ -183,8 +183,14 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
         // https://jupyterlab.github.io/jupyterlab/modules/_services_src_index_._services_src_kernel_kernel_.ikernelconnection.html#requestexecute
         // TODO: get the format correct
         console.log("%showLog Requested")
+        // make async, look for msg id + stream type
         // window.alert("model.kernel.requestExecute({code :'%showLog'});");
-        // model.kernel.requestExecute({code :'%showLog'});
+        let future = model.kernel.requestExecute({code :'%showLog'})
+        future.onIOPub = (msg) => {
+          console.log("Received message", msg);
+        };
+
+        future.done;
       }
       // This is just used to filter the messages in the window during development.
       // When feature complete only the text will be pushed to the elements stack for rendering
