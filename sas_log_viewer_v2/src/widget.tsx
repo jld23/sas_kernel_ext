@@ -187,11 +187,12 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
         // window.alert("model.kernel.requestExecute({code :'%showLog'});");
         let future = model.kernel.requestExecute({code :'%showLog'})
         future.onIOPub = (msg) => {
-          console.log("Received message", msg);
+          if (msg.content) {
+            console.log("Received message", msg);
+          }
         };
-
         future.done;
-        console.log("past done");
+        
       }
       // This is just used to filter the messages in the window during development.
       // When feature complete only the text will be pushed to the elements stack for rendering
