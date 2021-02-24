@@ -191,7 +191,6 @@ export class MessageLogView extends VDomRenderer<SASLogModel> {
             console.log("Received message", msg.content);
           }
         };
-        future.done;
 
       }
       // This is just used to filter the messages in the window during development.
