@@ -139,9 +139,7 @@ function addCommands(
   commands.addCommand(CommandIDs.newSpy, {
     label: 'Show SAS Log',
     caption: 'Show the SAS log for the associated notebook',
-    // TODO Convert to use sasLogIcon
     iconClass: 'jp-Icon jp-Icon-16 jp-saslogIcon',
-    // iconClass: 'sasLogIcon',
     isEnabled: hasKernel,
     execute: args => {
       let notebook: NotebookPanel | null;

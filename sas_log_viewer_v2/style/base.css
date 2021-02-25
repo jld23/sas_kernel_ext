@@ -1,35 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@jld23
-jupyterlab-contrib /
-jupyterlab-saslog
-
-5
-56
-
-    6
-
-Code
-Issues 2
-Pull requests
-Actions
-Projects
-Wiki
-Security
-
-    Insights
-
-jupyterlab-saslog/style/base.css
-@fcollonval
-fcollonval Update using upgrade_extension script
-Latest commit ab7fa88 24 days ago
-History
-1 contributor
-62 lines (53 sloc) 1.52 KB
 .jp-saslog-view .jp-saslog-toolbar {
   border-bottom: var(--jp-border-width) solid var(--jp-toolbar-border-color);
   padding: 2px;
@@ -78,7 +46,7 @@ button.jp-saslog-threadcollapser {
 }
 
 .jp-saslogIcon {
-  background-image: var(--sasLogIcon);
+  background-image: url(../style/icons/Jupyter_Log.svg);
 }
 
 .jp-saslog-nbtoolbarbutton .jp-ToolbarButtonComponent-label {
