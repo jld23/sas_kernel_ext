@@ -33,7 +33,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // GET request
     try {
-      const data = await requestAPI<any>('convert');
+      const data = await requestAPI<any>('convert', {method: 'GET'});
       console.log(data);
     } catch (reason) {
       console.error(
@@ -55,6 +55,11 @@ const extension: JupyterFrontEndPlugin<void> = {
             method: 'POST',
           });
           console.log(reply);
+          showDialog({
+            title: 'Converted',
+            body: `${file.path} was converted to a notebook.`,
+            buttons: [Dialog.okButton()],
+          }).catch((e) => console.log(e));
         } catch (reason) {
           console.error(
             `TEST:::::Error on POST /jlab-sas-2-nb/convert ${dataToSend}.\n${reason}`
@@ -62,11 +67,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         }
 
         console.log('JupyterLab extension jlab-sas-2-nb after POST request');
-        showDialog({
-          title: 'Converted',
-          body: `${file.path} was converted to a notebook.`,
-          buttons: [Dialog.okButton()],
-        }).catch((e) => console.log(e));
+        
       },
     });
 
