@@ -1,0 +1,7 @@
+{
+  "ServerApp": {
+    "jpserver_extensions": {
+      "sas7bdatProfile": true
+    }
+  }
+}
