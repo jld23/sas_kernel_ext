@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from ._version import __version__
+from .handlers import setup_handlers
 
 HERE = Path(__file__).parent.resolve()
 
@@ -14,11 +15,6 @@ def _jupyter_labextension_paths():
         "src": "labextension",
         "dest": data["name"]
     }]
-
-
-
-from .handlers import setup_handlers
-
 
 def _jupyter_server_extension_points():
     return [{
