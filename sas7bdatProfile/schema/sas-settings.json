@@ -1,0 +1,13 @@
+{
+  "title": "SAS Settings",
+  "description": "Settings of the settings example.",
+  "type": "object",
+  "properties": {
+    "cfgname": {
+      "type": "string",
+      "title": "saspy-cfg",
+      "description": "The cfgname to use for submissions.\nIf the SASPy configuration is local,\nthen there will be no data movement.",
+      "default": "<prompt>"
+    }
+  }
+}
