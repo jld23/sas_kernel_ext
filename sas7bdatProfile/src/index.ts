@@ -34,7 +34,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     // Read the settings and convert to the correct type
     cfgname = setting.get('cfgname').composite as string;
     console.log(
-      `Settings Example extension: cfgname is set to '${cfgname}'`
+      `sas7bdat profile: cfgname is set to '${cfgname}'`
     );
   }
 
@@ -51,9 +51,10 @@ const extension: JupyterFrontEndPlugin<void> = {
           console.log(data);
           local_config = data.local_config;
           current_dir = data.current_dir;
+
           data.saspy_configs.push('<prompt>')
           // Request a choice from a list if the setting is '<prompt>', the default.
-          if (cfgname == '<prompt>') {
+          if ((cfgname == '<prompt>') || !(String(cfgname) in data.saspy_configs)) {
             InputDialog.getItem({
               title: 'Select SASPy Configuration:',
               label: 'Choose your configuration:',
@@ -101,7 +102,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       const dataToSend = {
         fpath: file.path,
         origin: origin,
-        cfgname: saspy_cfg,
+        cfgname: cfgname,
         local_config: local_config,
         current_dir: current_dir,
 
