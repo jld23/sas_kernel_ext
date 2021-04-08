@@ -32,3 +32,6 @@ def _load_jupyter_server_extension(server_app):
     setup_handlers(server_app.web_app)
     server_app.log.info("Registered sas2nb extension at URL path /sas2nb")
 
+
+# For backward compatibility
+load_jupyter_server_extension = _load_jupyter_server_extension
