@@ -2,6 +2,10 @@
 
 This repo contains a set of Jupyter Lab extensions to improve the user experience for SAS programmers developing SAS code in Jupyter Lab.
 
+Here is a binder to see the extensions in action:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jld23/sas_kernel_ext/HEAD)
+
 If you have suggestions please enter an issue.
 
 ## List of Planned Extensions (in no particular order)
