@@ -1,6 +1,6 @@
 {
   "name": "sas2nb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Jupyter Lab extension to convert *.sas files to *.ipynb splitting on run boundaries.",
   "keywords": [
     "jupyter",

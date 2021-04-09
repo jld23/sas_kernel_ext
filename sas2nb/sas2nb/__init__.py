@@ -16,9 +16,7 @@ def _jupyter_labextension_paths():
     }]
 
 def _jupyter_server_extension_points():
-    return [{
-        "module": "sas2nb"
-    }]
+    return [{ "module": "sas2nb" }]
 
 
 def _load_jupyter_server_extension(server_app):
