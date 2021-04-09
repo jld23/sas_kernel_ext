@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd 
+cd jlab_create_sas_file
+pip install -e .
+jupyter labextension develop . --overwrite
+
+cd ../sas2nb
+pip install -e .
+jupyter labextension develop . --overwrite
+
+jlpm run build
