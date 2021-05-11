@@ -81,3 +81,11 @@ jupyter lab build --minimize=False
 ```bash
 pip uninstall sas_log_viewer_v3
 ```
+
+## TODO
+
+1. Create icon only in SAS Kernel notebook
+1. On click of button create new window
+1. register a listener to the state of the kernel window
+1. on statechange, submit %showLog to the kernel
+1. Update the window with the results
