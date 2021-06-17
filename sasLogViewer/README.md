@@ -60,3 +60,11 @@ jupyter lab build --minimize=False
 ```bash
 pip uninstall sasLogViewer
 ```
+
+## Checklist
+
+1. ~~Build cookiecutter~~
+1. ~~add button to toolbar~~
+1. create new window
+1. Monitor session
+1. after execute run `%sasLog`

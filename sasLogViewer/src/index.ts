@@ -13,6 +13,54 @@ import {
 import { Widget } from '@lumino/widgets';
 import { Message } from '@lumino/messaging';
 
+import { ToolbarButton } from '@jupyterlab/apputils';
+import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { 
+  INotebookModel, 
+  NotebookPanel, 
+  INotebookTracker 
+} from '@jupyterlab/notebook';
+import { IDisposable } from '@lumino/disposable';
+
+// namespace CommandIDs {
+//   // export const openRetro = 'retrolab:open';
+//   export const openSASlog = 'saslog:open';
+//   // export const launchRetroTree = 'retrolab:launchtree';
+// }
+
+// function hasKernel(): boolean {
+//   return (
+//     tracker.currentWidget !== null &&
+//     (tracker.currentWidget.context.sessionContext?.session?.kernel ??
+//       null) !== null &&
+//       tracker.currentWidget.sessionContext.prevKernelName == 'sas'
+//   );
+// }
+export class ButtonExtension
+  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+  createNew(
+    panel: NotebookPanel,
+    context: DocumentRegistry.IContext<INotebookModel>
+  ): IDisposable {
+    // Create the toolbar button
+    let mybutton = new ToolbarButton({
+      label: 'SAS Log',
+      // enabled: hasKernel,
+      onClick: () => alert('You did it!')
+      // onClick: () => {
+      //   this._commands.execute(CommandIDs.openSASlog);
+    });
+
+    // Add the toolbar button to the notebook toolbar
+    panel.toolbar.insertAfter('cellType', 'mybutton', mybutton);
+    // panel.toolbar.insertItem(15, 'mybutton', mybutton);
+    // panel.toolbar.addItem('mybutton', mybutton);
+
+    // The ToolbarButton class implements `IDisposable`, so the
+    // button *is* the extension for the purposes of this method.
+    return mybutton;
+  }
+}
 interface APODResponse {
   copyright: string;
   date: string;
@@ -96,17 +144,22 @@ class APODWidget extends Widget {
   }
 }
 
+
 /**
  * Activate the APOD widget extension.
  */
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
+  // tracker: INotebookTracker,
   restorer: ILayoutRestorer
 ) {
-  console.log('JupyterLab extension jupyterlab_apod is activated!');
+  console.log('JupyterLab extension sasLogViewer is activated!');
 
   let widget: MainAreaWidget<APODWidget>;
+
+  const your_button = new ButtonExtension();
+  app.docRegistry.addWidgetExtension('Notebook', your_button);
 
   // Add an application command
   const command: string = 'apod:open';
@@ -154,7 +207,7 @@ function activate(
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'sasLogViewer',
   autoStart: true,
-  requires: [ICommandPalette, ILayoutRestorer],
+  requires: [ICommandPalette, ILayoutRestorer, INotebookTracker],
   activate: activate
 };
 
