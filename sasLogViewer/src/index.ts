@@ -20,7 +20,13 @@ import {
   NotebookPanel, 
   INotebookTracker 
 } from '@jupyterlab/notebook';
+
 import { IDisposable } from '@lumino/disposable';
+// import { CommandRegistry } from '@lumino/commands';
+
+
+import { sasLogViewer } from './iconImport';
+
 
 // namespace CommandIDs {
 //   // export const openRetro = 'retrolab:open';
@@ -36,31 +42,38 @@ import { IDisposable } from '@lumino/disposable';
 //       tracker.currentWidget.sessionContext.prevKernelName == 'sas'
 //   );
 // }
-export class ButtonExtension
+class SASLogButton
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
-  createNew(
-    panel: NotebookPanel,
-    context: DocumentRegistry.IContext<INotebookModel>
-  ): IDisposable {
+     /**
+   * Instantiate a new SASLogButton.
+   * @param commands The command registry.
+   */
+    // constructor(commands: CommandRegistry) {
+    //   this._commands = commands;
+    // }
+
+  createNew(panel: NotebookPanel): IDisposable {
     // Create the toolbar button
-    let mybutton = new ToolbarButton({
-      label: 'SAS Log',
+    const sasLogbutton = new ToolbarButton({
+      tooltip: 'Show SAS Log for Notebook',
+      icon: sasLogViewer,
+      // label: 'SAS Log',
       // enabled: hasKernel,
       onClick: () => alert('You did it!')
       // onClick: () => {
       //   this._commands.execute(CommandIDs.openSASlog);
+      // }
     });
-
     // Add the toolbar button to the notebook toolbar
-    panel.toolbar.insertAfter('cellType', 'mybutton', mybutton);
+    panel.toolbar.insertAfter('cellType', 'mybutton', sasLogbutton);
     // panel.toolbar.insertItem(15, 'mybutton', mybutton);
     // panel.toolbar.addItem('mybutton', mybutton);
 
-    // The ToolbarButton class implements `IDisposable`, so the
-    // button *is* the extension for the purposes of this method.
-    return mybutton;
+    return sasLogbutton;
   }
+  // private _commands: CommandRegistry;
 }
+
 interface APODResponse {
   copyright: string;
   date: string;
@@ -150,7 +163,9 @@ class APODWidget extends Widget {
  */
 function activate(
   app: JupyterFrontEnd,
-  palette: ICommandPalette,
+  palette: ICommandPalette | null,
+  // translator: ITranslator,
+  // menu: IMainMenu | null,
   // tracker: INotebookTracker,
   restorer: ILayoutRestorer
 ) {
@@ -158,10 +173,11 @@ function activate(
 
   let widget: MainAreaWidget<APODWidget>;
 
-  const your_button = new ButtonExtension();
+  const your_button = new SASLogButton();
   app.docRegistry.addWidgetExtension('Notebook', your_button);
 
   // Add an application command
+  // const { commands } = app;
   const command: string = 'apod:open';
   app.commands.addCommand(command, {
     label: 'SAS Random Astronomy Picture',
