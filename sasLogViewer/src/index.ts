@@ -22,17 +22,17 @@ import {
 } from '@jupyterlab/notebook';
 
 import { IDisposable } from '@lumino/disposable';
-// import { CommandRegistry } from '@lumino/commands';
+import { CommandRegistry } from '@lumino/commands';
 
 
 import { sasLogViewer } from './iconImport';
 
 
-// namespace CommandIDs {
+namespace CommandIDs {
 //   // export const openRetro = 'retrolab:open';
-//   export const openSASlog = 'saslog:open';
+  export const openSASlog = 'saslog:open';
 //   // export const launchRetroTree = 'retrolab:launchtree';
-// }
+}
 
 // function hasKernel(): boolean {
 //   return (
@@ -48,30 +48,27 @@ class SASLogButton
    * Instantiate a new SASLogButton.
    * @param commands The command registry.
    */
-    // constructor(commands: CommandRegistry) {
-    //   this._commands = commands;
-    // }
+    constructor(commands: CommandRegistry) {
+      this._commands = commands;
+    }
 
   createNew(panel: NotebookPanel): IDisposable {
     // Create the toolbar button
     const sasLogbutton = new ToolbarButton({
       tooltip: 'Show SAS Log for Notebook',
       icon: sasLogViewer,
-      // label: 'SAS Log',
       // enabled: hasKernel,
-      onClick: () => alert('You did it!')
-      // onClick: () => {
-      //   this._commands.execute(CommandIDs.openSASlog);
-      // }
+      onClick: () => {
+        alert('You did it!')
+        this._commands.execute(CommandIDs.openSASlog);
+      }
     });
     // Add the toolbar button to the notebook toolbar
-    panel.toolbar.insertAfter('cellType', 'mybutton', sasLogbutton);
-    // panel.toolbar.insertItem(15, 'mybutton', mybutton);
-    // panel.toolbar.addItem('mybutton', mybutton);
+    panel.toolbar.insertAfter('cellType', 'saslog_button', sasLogbutton);
 
     return sasLogbutton;
   }
-  // private _commands: CommandRegistry;
+  private _commands: CommandRegistry;
 }
 
 interface APODResponse {
@@ -143,11 +140,10 @@ class APODWidget extends Widget {
       this.summary.innerText = 'Random APOD fetched was not an image.';
     }
   }
-
   /**
    * Get a random date string in YYYY-MM-DD format.
    */
-  randomDate(): string {
+   randomDate(): string {
     const start = new Date(2010, 1, 1);
     const end = new Date();
     const randomDate = new Date(
@@ -155,6 +151,7 @@ class APODWidget extends Widget {
     );
     return randomDate.toISOString().slice(0, 10);
   }
+
 }
 
 
@@ -170,16 +167,14 @@ function activate(
   restorer: ILayoutRestorer
 ) {
   console.log('JupyterLab extension sasLogViewer is activated!');
+  const { commands, docRegistry, shell } = app;
+  const saslog_button = new SASLogButton(commands);
+  docRegistry.addWidgetExtension('Notebook', saslog_button);
 
   let widget: MainAreaWidget<APODWidget>;
-
-  const your_button = new SASLogButton();
-  app.docRegistry.addWidgetExtension('Notebook', your_button);
-
-  // Add an application command
-  // const { commands } = app;
+  
   const command: string = 'apod:open';
-  app.commands.addCommand(command, {
+  commands.addCommand(command, {
     label: 'SAS Random Astronomy Picture',
     execute: () => {
       if (!widget || widget.isDisposed) {
@@ -197,12 +192,12 @@ function activate(
 
       if (!widget.isAttached) {
         // Attach the widget to the main work area if it's not there
-        app.shell.add(widget, 'main');
+        shell.add(widget, 'main');
       }
       // Refresh the picture in the widget
       widget.content.update();
       // Activate the widget
-      app.shell.activateById(widget.id);
+      shell.activateById(widget.id);
     }
   });
 
