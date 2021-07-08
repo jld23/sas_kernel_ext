@@ -1,6 +1,10 @@
 #!/bin/bash
 
-cd 
+# copy sascfg_personal.py to default location
+mkdir -p ~/.config/saspy/
+cp ./binder/sascfg_personal.py ~/.config/saspy/
+
+
 cd jlab_create_sas_file
 pip install -e .
 jupyter labextension develop . --overwrite
