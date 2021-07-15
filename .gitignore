@@ -16,3 +16,4 @@ sasShowLog/__pycache__/*
 **/Untitled*.sas
 **/untitled*.sas
 .idea/
+node_modules
