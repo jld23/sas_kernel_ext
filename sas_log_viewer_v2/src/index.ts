@@ -228,6 +228,7 @@ const extension: JupyterFrontEndPlugin<ISASLogExtension> = {
       });
     }
     addCommands(app, tracker, spyTracker, palette, mainMenu);
+
     function refreshNewCommand() {
       commands.notifyCommandChanged(CommandIDs.newSpy);
     }

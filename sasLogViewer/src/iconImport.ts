@@ -6,3 +6,8 @@ export const sasLogViewer = new LabIcon({
     name: 'sasLogViewer:sas',
     svgstr: sasSVGstr
   });
+
+export const sasLogIcon = new LabIcon({
+    name: 'custom-ui-components:sasLog',
+    svgstr: sasSVGstr
+  });
