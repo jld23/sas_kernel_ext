@@ -15,3 +15,5 @@ sasShowLog/__pycache__/*
 **/untitled*.ipynb
 **/Untitled*.sas
 **/untitled*.sas
+.idea/
+env
