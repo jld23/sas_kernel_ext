@@ -5,28 +5,26 @@ import {Kernel} from '@jupyterlab/services';
 import {
 	caretDownIcon,
 	caretRightIcon,
-	closeIcon,
-	jsonIcon
+	closeIcon
 } from '@jupyterlab/ui-components';
 import {UUID} from '@lumino/coreutils';
 import {Message as luminoMessage} from '@lumino/messaging';
 import {Widget, BoxLayout} from '@lumino/widgets';
-import {KernelSpyModel} from './model';
-import '../style/index.css';
-import '../style/widget.css'
 import Convert from 'ansi-to-html'
+import {SASLogModel} from './model';
+import { sasLogIcon } from './iconImport';
 
 const convert = new Convert()
 
 
 /**
- * The main view for the kernel spy.
+ * The main view for the SAS log viewer.
  */
-export class MessageLogView extends VDomRenderer<KernelSpyModel> {
-	constructor(model: KernelSpyModel) {
+export class MessageLogView extends VDomRenderer<SASLogModel> {
+	constructor(model: SASLogModel) {
 		super(model);
-		this.id = `kernelspy-messagelog-${UUID.uuid4()}`;
-		this.addClass('jp-kernelspy-messagelog');
+		this.id = `saslog-messagelog-${UUID.uuid4()}`;
+		this.addClass('jp-saslog-messagelog');
 	}
 
 	collapsedKeys: { [key: string]: boolean } = {}
@@ -76,22 +74,22 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
 }
 
 /**
- * The main view for the kernel spy.
+ * The main view for the SAS Log viewer.
  */
-export class KernelSpyView extends Widget {
+export class SASLogView extends Widget {
 	constructor(kernel?: Kernel.IKernelConnection | null) {
 		super();
-		this._model = new KernelSpyModel(kernel);
-		this.addClass('jp-kernelspy-view');
-		this.id = `kernelspy-${UUID.uuid4()}`;
-		this.title.label = 'Kernel spy';
+		this._model = new SASLogModel(kernel);
+		this.addClass('jp-saslog-view');
+		this.id = `saslog-${UUID.uuid4()}`;
+		this.title.label = 'SAS Log';
 		this.title.closable = true;
-		this.title.iconRenderer = jsonIcon;
+		this.title.icon = sasLogIcon;
 
 		const layout = (this.layout = new BoxLayout());
 
 		this._toolbar = new Toolbar();
-		this._toolbar.addClass('jp-kernelspy-toolbar');
+		this._toolbar.addClass('jp-saslog-toolbar');
 
 		this._messagelog = new MessageLogView(this._model);
 
@@ -105,7 +103,7 @@ export class KernelSpyView extends Widget {
 			onClick: () => {
 				this._messagelog.collapseAll();
 			},
-			className: 'jp-kernelspy-collapseAll',
+			className: 'jp-saslog-collapseAll',
 			icon: caretRightIcon,
 			tooltip: 'Collapse all threads'
 		});
@@ -115,7 +113,7 @@ export class KernelSpyView extends Widget {
 			onClick: () => {
 				this._messagelog.expandAll();
 			},
-			className: 'jp-kernelspy-expandAll',
+			className: 'jp-saslog-expandAll',
 			icon: caretDownIcon,
 			tooltip: 'Expand all threads'
 		});
@@ -125,7 +123,7 @@ export class KernelSpyView extends Widget {
 			onClick: () => {
 				this._model.clear();
 			},
-			className: 'jp-kernelspy-clearAll',
+			className: 'jp-saslog-clearAll',
 			icon: closeIcon,
 			tooltip: 'Clear all threads'
 		});
@@ -141,14 +139,14 @@ export class KernelSpyView extends Widget {
 		}
 	}
 
-	get model(): KernelSpyModel {
+	get model(): SASLogModel {
 		return this._model;
 	}
 
 	private _toolbar: Toolbar<Widget>;
 	private _messagelog: MessageLogView;
 
-	private _model: KernelSpyModel;
+	private _model: SASLogModel;
 
 	protected clearAllButton: ToolbarButton;
 	protected expandAllButton: ToolbarButton;

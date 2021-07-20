@@ -78,9 +78,9 @@ export namespace ThreadIterator {
 }
 
 /**
- * Model for a kernel spy.
+ * Model for a SAS Log.
  */
-export class KernelSpyModel extends VDomModel {
+export class SASLogModel extends VDomModel {
   private requestStarted: string = '';
   private logRequestStarted: string = '';
   public logStreamObj: any = {}

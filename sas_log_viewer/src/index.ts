@@ -23,33 +23,33 @@ import { CommandRegistry } from '@lumino/commands';
 import { Token } from '@lumino/coreutils';
 import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 import { AttachedProperty } from '@lumino/properties';
-import { KernelSpyView } from './widget';
+import { SASLogView } from './widget';
 
 /**
  * IDs of the commands added by this extension.
  */
 namespace CommandIDs {
-  export const newSpy = 'kernelspy:new';
+  export const newSASlog = 'saslog:new';
 }
 
 /**
  * The token identifying the JupyterLab plugin.
  */
-export const IKernelSpyExtension = new Token<IKernelSpyExtension>(
-  'jupyter.extensions.kernelspy'
+export const ISASLogExtension = new Token<ISASLogExtension>(
+  'jupyter.extensions.saslog'
 );
 
-export type IKernelSpyExtension = DocumentRegistry.IWidgetExtension<
+export type ISASLogExtension = DocumentRegistry.IWidgetExtension<
   NotebookPanel,
   INotebookModel
 >;
 
-const spyProp = new AttachedProperty<KernelSpyView, string>({
+const saslogProp = new AttachedProperty<SASLogView, string>({
   create: () => '',
-  name: 'SpyTarget'
+  name: 'SASLogTarget'
 });
 
-export class KernelSpyExtension implements IKernelSpyExtension {
+export class saslogExtension implements ISASLogExtension {
   /**
    *
    */
@@ -75,9 +75,9 @@ export class KernelSpyExtension implements IKernelSpyExtension {
       return false;
     });
     let i = 1;
-    for (const id of [CommandIDs.newSpy]) {
+    for (const id of [CommandIDs.newSASlog]) {
       const button = new CommandToolbarButton({ id, commands: this.commands });
-      button.addClass('jp-kernelspy-nbtoolbarbutton');
+      button.addClass('jp-saslog-nbtoolbarbutton');
       if (insertionPoint >= 0) {
         nb.toolbar.insertItem(
           insertionPoint + i++,
@@ -85,7 +85,7 @@ export class KernelSpyExtension implements IKernelSpyExtension {
           button
         );
       } else {
-        nb.toolbar.addItem(this.commands.label(id), button);
+        nb.toolbar.insertAfter('cellType', this.commands.label(id), button);
       }
       buttons.push(button);
     }
@@ -107,27 +107,28 @@ export class KernelSpyExtension implements IKernelSpyExtension {
 function addCommands(
   app: JupyterFrontEnd,
   tracker: INotebookTracker,
-  spyTracker: WidgetTracker<MainAreaWidget<KernelSpyView>>,
+  saslogTracker: WidgetTracker<MainAreaWidget<SASLogView>>,
   palette: ICommandPalette | null,
   menu: IMainMenu | null
 ): void {
   const { commands, shell } = app;
 
   /**
-   * Whether there is an active notebook.
+   * Whether there is an active SAS notebook
    */
-  function hasKernel(): boolean {
+   function hasKernel(): boolean {
     return (
       tracker.currentWidget !== null &&
       (tracker.currentWidget.context.sessionContext?.session?.kernel ??
-        null) !== null
+        null) !== null &&
+        tracker.currentWidget.sessionContext.prevKernelName == 'sas'
     );
   }
 
-  commands.addCommand(CommandIDs.newSpy, {
-    label: 'New SAS log',
-    caption: 'Open a window to inspect messages sent to/from a kernel',
-    iconClass: 'jp-Icon jp-Icon-16 jp-kernelspyIcon',
+  commands.addCommand(CommandIDs.newSASlog, {
+    label: 'Show SAS Log',
+    caption: 'Show the SAS log for the associated notebook',
+    iconClass: 'jp-Icon jp-Icon-16 jp-saslogIcon',
     isEnabled: hasKernel,
     execute: args => {
       let notebook: NotebookPanel | null;
@@ -139,22 +140,22 @@ function addCommands(
       if (!notebook) {
         return;
       }
-      const widget = new KernelSpyView(
+      const widget = new SASLogView(
         notebook.context.sessionContext?.session?.kernel
       );
 
-      widget.title.label = `SAS log: ${notebook.title.label}`;
+      widget.title.label = `SAS Log: ${notebook.title.label}`;
       notebook.title.changed.connect(() => {
-        widget.title.label = `SAS log: ${notebook!.title.label}`;
+        widget.title.label = `SAS Log: ${notebook!.title.label}`;
       });
 
       const outer = new MainAreaWidget({ content: widget });
-      spyProp.set(widget, notebook.context.path);
+      saslogProp.set(widget, notebook.context.path);
       notebook.context.pathChanged.connect((_, path) => {
-        spyProp.set(widget, path);
-        spyTracker.save(outer);
+        saslogProp.set(widget, path);
+        saslogTracker.save(outer);
       });
-      spyTracker.add(outer);
+      saslogTracker.add(outer);
       notebook.context.sessionContext.kernelChanged.connect((_, args) => {
         widget.model.kernel = args.newValue;
       });
@@ -171,22 +172,22 @@ function addCommands(
   });
 
   palette?.addItem({
-    command: CommandIDs.newSpy,
+    command: CommandIDs.newSASlog,
     category: 'Kernel'
   });
 
-  menu?.kernelMenu.addGroup([{ command: CommandIDs.newSpy }]);
+  menu?.kernelMenu.addGroup([{ command: CommandIDs.newSASlog }]);
 }
 
 /**
- * Initialization data for the jupyterlab-kernelspy extension.
+ * Initialization data for the jupyterlab-saslog extension.
  */
-const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
-  id: 'jupyterlab-kernelspy',
+const extension: JupyterFrontEndPlugin<ISASLogExtension> = {
+  id: 'sas-log-viewer:plugin',
   autoStart: true,
   requires: [INotebookTracker],
   optional: [ICommandPalette, IMainMenu, ILayoutRestorer],
-  provides: IKernelSpyExtension,
+  provides: ISASLogExtension,
   activate: async (
     app: JupyterFrontEnd,
     tracker: INotebookTracker,
@@ -194,30 +195,30 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
     mainMenu: IMainMenu | null,
     restorer: ILayoutRestorer | null
   ) => {
-    console.log('SAS log_viewer_v4 extension is activated!');
+    console.log('SAS log_viewer extension is activated!');
     const { commands, docRegistry } = app;
-    const extension = new KernelSpyExtension(commands);
+    const extension = new saslogExtension(commands);
     docRegistry.addWidgetExtension('Notebook', extension);
 
     // Recreate views from layout restorer
-    const spyTracker = new WidgetTracker<MainAreaWidget<KernelSpyView>>({
-      namespace: 'kernelspy'
+    const saslogTracker = new WidgetTracker<MainAreaWidget<SASLogView>>({
+      namespace: 'saslog'
     });
     if (restorer) {
-      void restorer.restore(spyTracker, {
-        command: CommandIDs.newSpy,
+      void restorer.restore(saslogTracker, {
+        command: CommandIDs.newSASlog,
         args: widget => ({
-          path: spyProp.get(widget.content),
+          path: saslogProp.get(widget.content),
           activate: false
         }),
-        name: widget => spyProp.get(widget.content),
+        name: widget => saslogProp.get(widget.content),
         when: tracker.restored
       });
     }
 
-    addCommands(app, tracker, spyTracker, palette, mainMenu);
+    addCommands(app, tracker, saslogTracker, palette, mainMenu);
     function refreshNewCommand() {
-      commands.notifyCommandChanged(CommandIDs.newSpy);
+      commands.notifyCommandChanged(CommandIDs.newSASlog);
     }
     // Update the command registry when the notebook state changes.
     tracker.currentChanged.connect(refreshNewCommand);
