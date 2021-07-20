@@ -13,4 +13,8 @@ cd ../sas2nb
 pip install -e .
 jupyter labextension develop . --overwrite
 
+cd ../sas_log_viewer
+pip install -e .
+jupyter labextension develop . --overwrite
+
 jlpm run build
