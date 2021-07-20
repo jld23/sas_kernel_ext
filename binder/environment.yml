@@ -1,12 +1,18 @@
 name: sas-kernel-ext
 channels:
   - conda-forge
+
 dependencies:
   - python
   - pip
-  - jupyterlab=3
+  - wheel
+  - jupyterlab >=3,<4.0.0a0
+  # Fix binder
+  - parso >=0.8.0,<0.9.0
+  - jupyter_telemetry >=0.1.0
   - pip:
     - saspy
     - sas_kernel
+    - pandas
     # - jlab-create-sas-file
     # - sas2nb

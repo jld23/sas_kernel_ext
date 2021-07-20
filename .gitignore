@@ -18,3 +18,5 @@ sasShowLog/__pycache__/*
 .idea/
 env
 **/yarn.lock
+sas_log_viewer/lib/*
+sas_log_viewer/node_modules/*
