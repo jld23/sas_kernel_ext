@@ -13,6 +13,8 @@ import {Widget, BoxLayout} from '@lumino/widgets';
 import Convert from 'ansi-to-html'
 import {SASLogModel} from './model';
 import { sasLogIcon } from './iconImport';
+import '../style/index.css';
+import '../style/widget.css'
 
 const convert = new Convert()
 

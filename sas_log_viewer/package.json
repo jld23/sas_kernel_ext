@@ -1,6 +1,6 @@
 {
   "name": "sas_log_viewer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Jupyter lab extension to see SAS log while using the SAS Kernel.",
   "keywords": [
     "jupyter",
