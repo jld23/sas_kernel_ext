@@ -1,5 +1,0 @@
-{
-  "packageManager": "python",
-  "packageName": "sas_log_viewer_v3",
-  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package sas_log_viewer_v3"
-}
