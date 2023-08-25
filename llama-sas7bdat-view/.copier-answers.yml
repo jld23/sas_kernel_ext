@@ -1,0 +1,20 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.0
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: jared.dean@gmail.com
+author_name: Jared Dean
+data_format: string
+file_extension: ''
+has_binder: false
+has_settings: true
+kind: frontend
+labextension_name: sas7bdat-viewer
+mimetype: ''
+mimetype_name: ''
+project_short_description: A JupyterLab extension. to view sas7bdat sessions in current
+    session.
+python_name: sas7bdat_viewer
+repository: https://github.com/jld23/sas_kernel_ext.git
+test: true
+viewer_name: ''
+

@@ -1,0 +1,4 @@
+{
+    "name": "SAS Libnames Extension",
+    "description": "Adds a new left-hand column to list files in SAS libnames."
+  }

@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "sas7bdat-viewer",
+  "description": "sas7bdat-viewer settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
